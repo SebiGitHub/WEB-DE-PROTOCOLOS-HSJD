@@ -1,0 +1,10 @@
+# Archivos temporales
+*.log
+*.tmp
+
+# Carpetas comunes a ignorar
+.vs/
+node_modules/
+__pycache__/
+.DS_Store
+Thumbs.db
