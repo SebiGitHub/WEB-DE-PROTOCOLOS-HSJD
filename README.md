@@ -14,7 +14,6 @@ Evita que un empleado vea protocolos que no le conciernen, reduciendo ruido de i
 ## Estructura
 
 - App/: contiene el archivo .msapp o los JSON exportados
+- Assets/: imágenes e iconos
 - Config/: scripts para listas de SharePoint
 - Docs/: diagramas, capturas, manual
-- Flows/: flujos de Power Automate (.zip)
-- Assets/: imágenes e iconos
