@@ -8,7 +8,7 @@ Evita que un empleado vea protocolos que no le conciernen, reduciendo ruido de i
 🛠¿Cómo está construido / estructura técnica?
 - La aplicación vive en Power Apps (la carpeta App/ del repositorio contiene el archivo de la app o su exportación JSON). 
 - Usa listas de SharePoint como backend (almacenamiento de datos). 
-- Incluye también flujos de automatización (carpeta Flows/), presumiblemente para manejar lógica de permisos, asignaciones automáticas o notificaciones. 
+- Incluye también flujos de automatización, para manejar lógica de permisos, asignaciones automáticas o notificaciones. 
 - Tiene una estructura organizada: carpetas para configuración (Config/), documentación (Docs/), assets (imágenes/íconos), etc. 
 
 ## Estructura
