@@ -19,23 +19,17 @@ Aplicación (TFG) para gestionar y difundir protocolos hospitalarios de forma ce
 - Administración: alta/edición de protocolos y metadatos
 
 ## Capturas/GIF
-> Crea la carpeta `/docs/screenshots/` y añade 4–6 capturas.
-- Home / listado de protocolos: `/docs/screenshots/home.png` [TODO]
-- Filtros por servicio/categoría: `/docs/screenshots/filters.png` [TODO]
-- Detalle de protocolo: `/docs/screenshots/detail.png` [TODO]
-- Registro de lectura / versionado: `/docs/screenshots/versioning.png` [TODO]
+Carpeta `/docs/screenshots/`.
 
-## Cómo ejecutar
-> En Power Apps no es “ejecutar”, es **importar y conectar**.
-
+## Cómo importar y conectar
 1. Clona el repositorio.
 2. Abre el proyecto en Power Apps Studio.
-   - Si tienes un `.msapp`: ábrelo/importa la app. [TODO]
+   - Si tienes un `.msapp`: ábrelo/importa la app.
    - Si exportas como solución: importa la solución en tu entorno.
 3. Configura los conectores:
-   - SharePoint Site: `[URL]` [TODO]
-   - Listas necesarias: `[ListaProtocolos]`, `[ListaLecturas]`, `[ListaUsuarios/Perfiles]`… [TODO]
-4. Ajusta variables/constantes del entorno (URLs, nombres de listas, etc.) [TODO]
+   - SharePoint Site: [`[URL]`](https://pssjd.sharepoint.com/sites/HospitalAljarafe.InformacionDocumental/SitePages/CollabHome.aspx)
+   - Listas necesarias: `[ProtocolosPublicados]`, `[T_Usuarios_LDAP]`, `[T_Protocolos_Vistos]`
+4. Ajusta variables/constantes del entorno (URLs, nombres de listas, etc.)
 5. Publica la app y compártela con los roles adecuados.
 
 ## Qué aprendí
