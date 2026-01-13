@@ -1,19 +1,45 @@
 # WEB-DE-PROTOCOLOS-HSJD
-❓¿Qué es?
-WEB-DE-PROTOCOLOS-HSJD es una aplicación desarrollada con Microsoft Power Apps que se integra con listas de SharePoint. Su función principal es servir como un gestor de protocolos internos: asegurar que cada empleado solo tenga acceso —y vea— los protocolos (documentos, guías, normativas, etc.) que le correspondan en función de su categoría profesional y su servicio.
 
-😄¿Qué problema resuelve?
-Evita que un empleado vea protocolos que no le conciernen, reduciendo ruido de información y mejorando la seguridad y organización interna. Facilita la gestión de documentos y protocolos dentro de una institución, haciendo más eficiente el acceso a lo necesario. Esto es útil en entornos profesionales donde hay múltiples categorías de usuarios y distintos niveles de permisos.
+## Qué es
+Aplicación (TFG) para gestionar y difundir protocolos hospitalarios de forma centralizada, controlando visibilidad por perfil/servicio y registrando la lectura de cada protocolo (incluyendo el control de versiones).
 
-🛠¿Cómo está construido / estructura técnica?
-- La aplicación vive en Power Apps (la carpeta App/ del repositorio contiene el archivo de la app o su exportación JSON). 
-- Usa listas de SharePoint como backend (almacenamiento de datos). 
-- Incluye también flujos de automatización, para manejar lógica de permisos, asignaciones automáticas o notificaciones. 
-- Tiene una estructura organizada: carpetas para configuración (Config/), documentación (Docs/), assets (imágenes/íconos), etc. 
+> Objetivo: reducir fricción al encontrar protocolos y asegurar que las versiones nuevas vuelvan a mostrarse aunque el usuario ya haya leído una versión anterior.
 
-## Estructura
+## Stack
+- Power Apps (Canvas App, Backend y FrontEnd de la web)
+- SharePoint (listas como almacenamiento)
+- Excel (Controla la correcta información de cada usuario)
+- .vs (Archivos para la limpieza y formateo automático de los datos)
 
-- App/: contiene el archivo .msapp o los JSON exportados
-- Assets/: imágenes e iconos
-- Config/: scripts para listas de SharePoint
-- Docs/: diagramas, capturas, manual
+## Features
+- Catálogo de protocolos con filtrado por **categoría**, **servicio** y/o **perfil**
+- Lectura con trazabilidad: marcar protocolo como leído por usuario
+- Control de versiones: cuando se publica una versión nueva, vuelve a aparecer como “pendiente”
+- Búsqueda por texto y navegación por secciones (pendientes / leídos / todos)
+- Administración: alta/edición de protocolos y metadatos
+
+## Capturas/GIF
+> Crea la carpeta `/docs/screenshots/` y añade 4–6 capturas.
+- Home / listado de protocolos: `/docs/screenshots/home.png` [TODO]
+- Filtros por servicio/categoría: `/docs/screenshots/filters.png` [TODO]
+- Detalle de protocolo: `/docs/screenshots/detail.png` [TODO]
+- Registro de lectura / versionado: `/docs/screenshots/versioning.png` [TODO]
+
+## Cómo ejecutar
+> En Power Apps no es “ejecutar”, es **importar y conectar**.
+
+1. Clona el repositorio.
+2. Abre el proyecto en Power Apps Studio.
+   - Si tienes un `.msapp`: ábrelo/importa la app. [TODO]
+   - Si exportas como solución: importa la solución en tu entorno.
+3. Configura los conectores:
+   - SharePoint Site: `[URL]` [TODO]
+   - Listas necesarias: `[ListaProtocolos]`, `[ListaLecturas]`, `[ListaUsuarios/Perfiles]`… [TODO]
+4. Ajusta variables/constantes del entorno (URLs, nombres de listas, etc.) [TODO]
+5. Publica la app y compártela con los roles adecuados.
+
+## Qué aprendí
+- Diseñar una app orientada a **procesos reales** (acceso, permisos, trazabilidad)
+- Modelar datos en SharePoint para soportar filtrado, lectura y versionado
+- Reducir errores de UX con reglas claras: “leído”, “no leído”, “nueva versión”
+- Mejorar mantenibilidad documentando estructura, conectores y lógica clave
