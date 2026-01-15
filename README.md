@@ -21,7 +21,6 @@ Aplicación (TFG) para gestionar y difundir protocolos hospitalarios de forma ce
 ## Capturas/GIF
 Carpeta `/docs/screenshots/`.
 <img width="1112" height="831" alt="home" src="https://github.com/user-attachments/assets/3975babf-0486-4ced-8a4a-69fdf81d0e37" />
-<img width="1132" height="848" alt="filters" src="https://github.com/user-attachments/assets/5b460f9a-b5cc-4420-8e1b-990d5b8d30c9" />
 
 ## Cómo importar y conectar
 1. Clona el repositorio.
