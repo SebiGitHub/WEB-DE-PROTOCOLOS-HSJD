@@ -9,7 +9,6 @@ Aplicación (TFG) para gestionar y difundir protocolos hospitalarios de forma ce
 - Power Apps (Canvas App, Backend y FrontEnd de la web)
 - SharePoint (listas como almacenamiento)
 - Excel (Controla la correcta información de cada usuario)
-- .vs (Archivos para la limpieza y formateo automático de los datos)
 
 ## Features
 - Catálogo de protocolos con filtrado por **categoría**, **servicio** y/o **perfil**
