@@ -4,6 +4,8 @@ Aplicación desarrollada originalmente con **Power Apps**, **SharePoint** y **Ex
 
 Este repositorio contiene una **reconstrucción demostrativa** con datos sintéticos. Permite entender y probar el flujo sin conectarse al entorno institucional ni publicar la exportación original.
 
+**[Abrir la demo interactiva](https://sebigithub.github.io/projects/tfg/)**
+
 ## Qué problema resuelve
 
 Cuando los documentos están repartidos entre carpetas y versiones, localizar el protocolo aplicable puede requerir búsquedas manuales. La solución organiza un catálogo y utiliza el perfil del usuario para decidir qué documentos mostrar.
