@@ -1,0 +1,14 @@
+# Datos y exportaciones del entorno original: no publicar
+/App/
+/Config/
+/Docs/
+/Assets/
+/screenshots/
+*.accdb
+*.xlsx
+*.iqy
+*.msapp
+*.zip
+.env
+.env.*
+!.env.example

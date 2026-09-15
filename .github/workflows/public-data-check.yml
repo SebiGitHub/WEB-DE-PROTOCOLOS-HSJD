@@ -1,0 +1,40 @@
+name: Public data guard
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  allowlist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify current files and reachable history
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          def git(*args):
+              return subprocess.check_output(['git', *args])
+          allowed = {b'.gitignore', b'README.md', b'SECURITY.md', b'.github/workflows/public-data-check.yml', b'examples/protocolos-sinteticos.csv'}
+          expected_csv = 'id,titulo,servicio,perfil,version\nDEMO-001,Documento ficticio de demostración,Servicio de ejemplo,Perfil de ejemplo,1\n'.encode()
+          if git('rev-parse', '--is-shallow-repository').strip() != b'false':
+              raise SystemExit('Full history is required.')
+          tracked = set(git('ls-files', '-z').rstrip(b'\0').split(b'\0'))
+          if tracked != allowed:
+              raise SystemExit('Current file list requires private review.')
+          commits = git('rev-list', '--all').splitlines()
+          for commit in commits:
+              entries = git('ls-tree', '-r', '-z', commit.decode()).split(b'\0')
+              for entry in filter(None, entries):
+                  meta, path = entry.split(b'\t', 1)
+                  mode, kind, oid = meta.split()
+                  if path not in allowed or mode != b'100644' or kind != b'blob':
+                      raise SystemExit('Unreviewed historical file or file mode detected. Keep repository private.')
+                  if path == b'examples/protocolos-sinteticos.csv' and git('cat-file', 'blob', oid.decode()) != expected_csv:
+                      raise SystemExit('Historical example is not the approved synthetic fixture.')
+          print(f'PASS: approved paths and synthetic fixture across {len(commits)} reachable commits.')
+          print('Documentation content requires human review. Unreachable objects, caches, attachments and external clones are outside this check.')
+          PY
