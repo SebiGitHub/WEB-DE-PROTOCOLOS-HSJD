@@ -6,6 +6,7 @@
 /screenshots/
 *.accdb
 *.xlsx
+!/sample-data/datos-demo.xlsx
 *.iqy
 *.msapp
 *.zip

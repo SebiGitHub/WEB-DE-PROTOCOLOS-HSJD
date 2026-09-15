@@ -6,35 +6,58 @@ on:
 permissions:
   contents: read
 jobs:
-  allowlist:
+  review-demo:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verify current files and reachable history
+      - name: Verify approved demo and reachable history
         run: |
           python3 - <<'PY'
-          import subprocess
+          import hashlib, pathlib, re, subprocess, zipfile
           def git(*args):
               return subprocess.check_output(['git', *args])
-          allowed = {b'.gitignore', b'README.md', b'SECURITY.md', b'.github/workflows/public-data-check.yml', b'examples/protocolos-sinteticos.csv'}
+          allowed = {
+              b'.gitignore', b'README.md', b'SECURITY.md',
+              b'.github/workflows/public-data-check.yml',
+              b'examples/protocolos-sinteticos.csv',
+              b'demo/index.html', b'demo/styles.css', b'demo/data.js', b'demo/model.js', b'demo/app.js',
+              b'docs/ARQUITECTURA-Y-DATOS.md', b'docs/INSTALACION.md',
+              b'sample-data/datos-demo.xlsx',
+          }
           expected_csv = 'id,titulo,servicio,perfil,version\nDEMO-001,Documento ficticio de demostración,Servicio de ejemplo,Perfil de ejemplo,1\n'.encode()
+          expected_xlsx_sha256 = 'd99607397eac54d3d2b4b9f57f8380eb2daea7a7d1d4b190fda1ce4dee09917a'
           if git('rev-parse', '--is-shallow-repository').strip() != b'false':
               raise SystemExit('Full history is required.')
-          tracked = set(git('ls-files', '-z').rstrip(b'\0').split(b'\0'))
+          tracked = set(filter(None, git('ls-files', '-z').split(b'\0')))
           if tracked != allowed:
               raise SystemExit('Current file list requires private review.')
-          commits = git('rev-list', '--all').splitlines()
-          for commit in commits:
-              entries = git('ls-tree', '-r', '-z', commit.decode()).split(b'\0')
-              for entry in filter(None, entries):
+          for commit in git('rev-list', '--all').splitlines():
+              for entry in filter(None, git('ls-tree', '-r', '-z', commit.decode()).split(b'\0')):
                   meta, path = entry.split(b'\t', 1)
                   mode, kind, oid = meta.split()
                   if path not in allowed or mode != b'100644' or kind != b'blob':
-                      raise SystemExit('Unreviewed historical file or file mode detected. Keep repository private.')
+                      raise SystemExit('Unreviewed historical path or file mode detected.')
                   if path == b'examples/protocolos-sinteticos.csv' and git('cat-file', 'blob', oid.decode()) != expected_csv:
-                      raise SystemExit('Historical example is not the approved synthetic fixture.')
-          print(f'PASS: approved paths and synthetic fixture across {len(commits)} reachable commits.')
-          print('Documentation content requires human review. Unreachable objects, caches, attachments and external clones are outside this check.')
+                      raise SystemExit('Synthetic CSV fixture changed.')
+          book = pathlib.Path('sample-data/datos-demo.xlsx')
+          if hashlib.sha256(book.read_bytes()).hexdigest() != expected_xlsx_sha256:
+              raise SystemExit('Demo workbook changed without review.')
+          dni = re.compile(rb'(?<![A-Z0-9])(?:[0-9]{8}[A-Z]|[XYZ][0-9]{7}[A-Z])(?![A-Z0-9])', re.I)
+          email = re.compile(rb'[A-Z0-9._%+-]+@([A-Z0-9.-]+\.[A-Z]{2,})', re.I)
+          blobs = []
+          for path in tracked:
+              if path.endswith((b'.md', b'.html', b'.css', b'.js', b'.csv', b'.yml', b'.gitignore')):
+                  blobs.append((path, pathlib.Path(path.decode()).read_bytes()))
+          with zipfile.ZipFile(book) as z:
+              blobs.extend((name.encode(), z.read(name)) for name in z.namelist() if name.endswith('.xml'))
+          for path, content in blobs:
+              if dni.search(content):
+                  raise SystemExit(f'Possible DNI/NIE detected in {path.decode(errors="replace")}.')
+              for match in email.finditer(content):
+                  if match.group(1).lower() != b'example.invalid':
+                      raise SystemExit(f'Non-demo email detected in {path.decode(errors="replace")}.')
+          print('PASS: approved paths, workbook and basic personal-data patterns verified.')
+          print('Human review is still required for new documentation, exports and screenshots.')
           PY

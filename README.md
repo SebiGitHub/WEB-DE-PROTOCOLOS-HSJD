@@ -1,36 +1,76 @@
-# Gestión de protocolos hospitalarios — TFG
+# Gestión de protocolos — TFG
 
-Proyecto académico de DAM para centralizar la consulta de protocolos mediante Power Apps y SharePoint. El proyecto original incluía filtrado por perfil y servicio, registro de lectura y control de versiones.
+Aplicación desarrollada originalmente con **Power Apps**, **SharePoint** y **Excel** para centralizar protocolos, mostrar a cada usuario los documentos correspondientes a su servicio y categoría, conservar la versión vigente y registrar su lectura.
 
-## Estado de esta versión
+Este repositorio contiene una **reconstrucción demostrativa** con datos sintéticos. Permite entender y probar el flujo sin conectarse al entorno institucional ni publicar la exportación original.
 
-El 15 de septiembre de 2026 se eliminó el repositorio anterior y se creó uno nuevo desde una copia revisada. Esta versión contiene únicamente documentación y un ejemplo ficticio. No incluye datos personales, protocolos clínicos, exportaciones institucionales ni una aplicación ejecutable.
+## Qué problema resuelve
 
-El repositorio nuevo permanece privado. La revisión y las medidas para evitar que se reintroduzca contenido antiguo están documentadas en [SECURITY.md](SECURITY.md).
+Cuando los documentos están repartidos entre carpetas y versiones, localizar el protocolo aplicable puede requerir búsquedas manuales. La solución organiza un catálogo y utiliza el perfil del usuario para decidir qué documentos mostrar.
 
-## Stack del proyecto original
+## Funcionalidades demostradas
 
-- Power Apps (Canvas App)
-- SharePoint (listas)
-- Excel y Access para preparación de datos
+- Selección de un perfil ficticio.
+- Filtrado por servicio y categoría profesional.
+- Exclusión de borradores no publicados.
+- Búsqueda por título y descripción.
+- Visualización de la versión vigente.
+- Registro local de la lectura con usuario, versión y fecha.
+- Datos preparados en Excel para crear las listas de SharePoint.
 
-## Ejemplo sintético
+## Probar la demo web
 
-`examples/protocolos-sinteticos.csv` contiene un único registro inventado. No contiene datos de trabajadores ni protocolos clínicos reales.
+1. Descarga o clona el repositorio.
+2. Abre `demo/index.html` en un navegador.
+3. Cambia entre Ana, Bruno y Carla para comprobar el filtrado.
+4. Busca un protocolo y pulsa **Registrar lectura**.
+5. Usa **Reiniciar demo** para recuperar el estado inicial.
 
-## Competencias demostradas por el proyecto original
+La demo guarda las nuevas lecturas en `localStorage` del navegador. No envía información a ningún servidor.
 
-- Diseño de una solución de consulta y búsqueda.
-- Asociación de documentos a perfiles y servicios.
-- Registro de lectura vinculado a una versión.
-- Integración entre Power Apps y listas de SharePoint.
-- Preparación y organización de datos con Excel y Access.
+## Montaje en Power Apps y SharePoint
 
-Estas capacidades describen el proyecto académico original. No se anuncia una demo pública porque la exportación original fue retirada y no se ha creado todavía un entorno independiente verificable.
+El libro [`sample-data/datos-demo.xlsx`](sample-data/datos-demo.xlsx) contiene seis hojas:
 
-## Próximas mejoras
+- `Guia`
+- `Usuarios`
+- `Servicios`
+- `Categorias`
+- `Protocolos`
+- `Lecturas`
 
-1. Preparar un entorno de demostración independiente con datos sintéticos.
-2. Exportar la aplicación sin conexiones, identificadores ni datos institucionales.
-3. Documentar el esquema de listas y los permisos del origen.
-4. Añadir capturas revisadas y una demostración verificable.
+La guía [`docs/INSTALACION.md`](docs/INSTALACION.md) explica cómo crear las cinco listas de SharePoint, conectarlas a una aplicación de lienzo y configurar las fórmulas de perfil, catálogo y registro de lectura.
+
+Consulta [`docs/ARQUITECTURA-Y-DATOS.md`](docs/ARQUITECTURA-Y-DATOS.md) para ver el flujo y las relaciones del modelo.
+
+## Arquitectura
+
+```mermaid
+flowchart LR
+  U[Usuario] --> A[Power Apps]
+  A --> S[(SharePoint)]
+  E[Excel] --> S
+  S --> A
+```
+
+Excel prepara los datos de entrada. SharePoint actúa como origen persistente. Power Apps aplica el flujo de consulta y registro. En un entorno real, SharePoint debe aplicar los permisos efectivos; ocultar registros en la interfaz no sustituye la autorización del origen.
+
+## Estructura del repositorio
+
+```text
+demo/                  Demo web ejecutable
+docs/                  Arquitectura e instalación
+sample-data/           Libro Excel con datos ficticios
+examples/              Fixture sintético mínimo
+.github/workflows/     Control contra publicaciones accidentales
+```
+
+## Alcance
+
+La demo reproduce el comportamiento principal descrito en el TFG, pero no es la exportación original de Power Apps. No incluye conexiones, identificadores, datos de trabajadores, documentos clínicos ni recursos institucionales.
+
+Todos los nombres, servicios, perfiles, documentos, correos y lecturas son inventados. Los correos y enlaces utilizan el dominio reservado `example.invalid`.
+
+## Seguridad
+
+Antes de añadir una exportación de Power Apps, una captura o un nuevo conjunto de datos, revisa conexiones, metadatos, propiedades y contenido en privado. El workflow limita los archivos permitidos, verifica el Excel de demostración y busca patrones básicos de datos personales. Más información en [`SECURITY.md`](SECURITY.md).
