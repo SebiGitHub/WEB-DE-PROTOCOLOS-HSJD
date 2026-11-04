@@ -53,6 +53,6 @@
   }
   function render(){renderProfile();renderProtocols();renderReads();}
   usuario.addEventListener("change",render);buscar.addEventListener("input",renderProtocols);
-  $("reiniciar").addEventListener("click",()=>{localStorage.removeItem(storageKey);renderReads();});
+  $("reiniciar").addEventListener("click",()=>{write([]);renderReads();});
   render();
 })();
