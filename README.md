@@ -26,7 +26,7 @@ Cuando los documentos están repartidos entre carpetas y versiones, localizar el
 2. Abre `demo/index.html` en un navegador.
 3. Cambia entre Ana, Bruno y Carla para comprobar el filtrado.
 4. Busca un protocolo y pulsa **Registrar lectura**.
-5. Usa **Reiniciar demo** para recuperar el estado inicial.
+5. Usa **Reiniciar demo** para vaciar el registro de lecturas de todos los perfiles en este navegador.
 
 La demo guarda las nuevas lecturas en `localStorage` del navegador. No envía información a ningún servidor.
 
